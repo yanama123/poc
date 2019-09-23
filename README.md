@@ -4,7 +4,7 @@
 
 ### Clone Repo
 
-    $ git clone https://github.com/yanama123/Python_Automation.git
+    $ git clone https://github.com/yanama123/poc.git
 
 ### Python Virtual Environment
 
@@ -30,3 +30,8 @@
     sudo service rabbitmq-server start
     sudo rabbitmq-plugins enable rabbitmq_management
     sudo service rabbitmq-server restart
+###Run project
+    terminal 1:
+    python main_runner -tc=testcase.py
+    terminal 2: 
+    python consumer.py
