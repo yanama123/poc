@@ -30,7 +30,8 @@
     sudo service rabbitmq-server start
     sudo rabbitmq-plugins enable rabbitmq_management
     sudo service rabbitmq-server restart
-###Run project
+    
+### Run project
     terminal 1:
     python main_runner -tc=testcase.py
     terminal 2: 
