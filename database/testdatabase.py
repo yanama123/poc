@@ -4,7 +4,7 @@ import sqlite3
 class TestsDatabase:
     def __init__(self):
         print("Came to init")
-        self.conn = sqlite3.connect('results.db')
+        self.conn = sqlite3.connect('results1.db')
         print('connecyed')
         # self.conn = sqlite3.connect(':memory:')
         self.c = self.conn.cursor()
@@ -72,13 +72,14 @@ class TestsDatabase:
             print(e.message)
 
     def get_status(self, id):
-        """
-
-        :param id:
-        :return:
-        """
-        status = self.c.execute("SELECT status FROM testresults WHERE id= '{}'".format(id)).fetchall()
-        return status
+        # self.conn = sqlite3.connect('results.db')
+        # # self.conn = sqlite3.connect(':memory:')
+        # self.c = self.conn.cursor()
+        print('id', id[0])
+        rows= self.c.execute('SELECT status FROM testresults WHERE id ="{}"'.format(id[0])).fetchall()
+        for row in rows:
+            print(row)
+        return row
 
     def display(self):
         """
@@ -86,9 +87,21 @@ class TestsDatabase:
         :return:
         """
         result = self.c.execute("""SELECT * FROM testresults""").fetchall()
+        print(result)
         return result
 
     def __del__(self):
         self.conn.commit()
         self.conn.close()
+
+
+if __name__ == '__main__':
+    emp = TestsDatabase()
+    id = 'Dayananada'
+    emp.get_status(id)
+#     emp.display()
+    emp.add_test_results('Dayananada', 20006381, 'RealProtect', 'Sham', '3000', 'a', 'b', 'c')
+#     emp.select_task_by_priority('Dayananda')
+#     # emp.display()
+
 

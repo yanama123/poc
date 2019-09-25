@@ -1,4 +1,4 @@
 rabbitmq:
-    RABBIT_MQ_IP: localhost
+    RABBIT_MQ_IP: 127.0.0.1
     RABBIT_MQ_USERNAME: guest
     RABBIT_MQ_PASSWORD: guest
