@@ -25,6 +25,11 @@ Deactivate virtual environment
 
     $ deactivate
 # Project Setup
+> To start/enable docker services:
+    
+    sudo systemctl docker start
+    
+    sudo systemctl docker-compose start
 
 > Untar project tar at /home directory
 

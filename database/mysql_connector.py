@@ -128,7 +128,6 @@ class TestDatabase:
 
         :return:
         """
-        print('table name', self.TABLE_NAME)
         self.cursor.execute("SELECT * FROM {}".format(self.TABLE_NAME))
 
         result = self.cursor.fetchall()
@@ -140,12 +139,8 @@ class TestDatabase:
         :param id: test_case_id
         :return:
         """
-        print('table', self.TABLE_NAME)
-        print('cametoid', type(id[0]))
         self.cursor.execute('SELECT status, logs FROM {} WHERE id = "{}"'.format(self.TABLE_NAME, id[0]))
-        print('cursor', self.cursor)
-        status_from_id = self.cursor.fetchall()
-        print('s', status_from_id)
+        status_from_id = self.cursor.fetchone()
         return status_from_id
 
 

@@ -21,24 +21,21 @@ def read_test_case(ch, method, properties, body):
     logger.debug('process_readTestcases: parameters - '
                  '{}, {}, {}, {}'.format(ch, method, properties, body))
     msg_dict = body.decode("utf-8")
-    print('msg_dict', msg_dict)
+    logger.info('msg_dict', msg_dict)
     file_extension = os.path.splitext(msg_dict)
-    print('type', file_extension)
+    logger.info('type', file_extension)
 
     # if msg_dict is single file
 
     if ',' not in msg_dict:
-        print("*****************************************************************8")
         filename, file_extension = os.path.splitext(msg_dict)
         if file_extension == '.py':
             # time.sleep(10)
             update_pre_complition(msg_dict)
             update_post_compilation_python_test(msg_dict)
         elif file_extension == '.bats':
-            print("*******************1111111111111111111111111111******************8")
             update_pre_complition(msg_dict)
             update_post_compilation_bash_script(msg_dict)
-            print("Shell")
 
     else:
         msg_dict = msg_dict.split(',')
@@ -50,20 +47,19 @@ def read_test_case(ch, method, properties, body):
 def update_pre_complition(testcase):
     current_now = datetime.now()
     environment = os.environ['VIRTUAL_ENV']
-    print('testcase', testcase)
     fmttime = current_now.strftime("%d/%m/%Y %H:%M:%S")
-    print("'{}' is the TestCase TestRunner is going to run".format(testcase))
+    logger.info("'{}' is the TestCase TestRunner is going to run".format(testcase))
     started_at = fmttime
     created_at = time.ctime(os.path.getctime(testcase))
 
-    print("Start time : {}".format(started_at))
-    print("Creation time : {}".format(created_at))
+    logger.info("Start time : {}".format(started_at))
+    logger.info("Creation time : {}".format(created_at))
     test.insert_into_table(testcase, environment, TEST_DESCRIPTION, created_at, started_at,
                            finished_at='N/A', status='In Progress', logs='N/A')
 
 
 def update_post_compilation_python_test(testcase):
-    print("'{}' is the TestCase TestRunner is going to run".format(testcase))
+    logger.info("'{}' is the TestCase TestRunner is going to run".format(testcase))
     cmd = "nosetests " + " -v " + testcase
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
     # print('result =', process.stdout)
@@ -71,40 +67,37 @@ def update_post_compilation_python_test(testcase):
     if process.stdout:
         log = process.communicate()[1]
         # log = log.decode("utf-8")
-        print('loging', log)
         endlist = log.partition('\n')[-1]
-        print('endlist', endlist)
 
     current_now = datetime.now()
     fmt_time = current_now.strftime("%d/%m/%Y %H:%M:%S")
     finished_time = fmt_time
     completed = "Completed"
-    print('finished time is ', finished_time)
+    logger.info('finished time is ', finished_time)
     test.update_into_table(testcase, finished_time, completed, log)
 
 
 def update_post_compilation_bash_script(testcase):
-    print("'{}' is the TestCase TestRunner is going to run".format(testcase))
+    logger.info("'{}' is the TestCase TestRunner is going to run".format(testcase))
     cmd = "bats " + " --tap " + testcase
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
     # print('communicate', process.stdout.read())
     log = process.stdout.read()
-    print('logggggggggggggg',log)
     current_now = datetime.now()
     fmt_time = current_now.strftime("%d/%m/%Y %H:%M:%S")
     finished_time = fmt_time
     completed = "Completed"
-    print('finished time is ', finished_time)
+    logger.info('finished time is ', finished_time)
     test.update_into_table(testcase, finished_time, completed, log)
 
 
 def read_test_suite(args):
-    print("I am in readCases")
+    logger.info("I am in readCases")
 
 
 def get_status_all(status):
     status = str(status[0])
-    print(status)
+    logger.info(status)
     if status == 'all':
         res = test.display()
         print(res)
@@ -113,12 +106,12 @@ def get_status_all(status):
 def get_status_from_id(id):
     if id:
         res = test.status_from_id(id)
-        print('result', res)
+        print(res)
     else:
         logger.error('Enter the test case id to check the status')
 
 
-def loadTestsFromTestCase(testCaseClass):
+def load_test_from_test_case(testCaseClass):
     # sortTestMethodsUsing = Callable[[str, str], bool]
     def filter_test_methods(attrname):
         testMethodPrefix = 'test'
@@ -126,19 +119,17 @@ def loadTestsFromTestCase(testCaseClass):
                and callable(getattr(testCaseClass, attrname))
 
     test_case_names = list(filter(filter_test_methods, dir(testCaseClass)))
-    print("Test case names: {}".format(test_case_names))
+    logger.info("Test case names: {}".format(test_case_names))
     return test_case_names
+
 
 def run_test_by_one(id):
     cmd = "nosetests" + " -v --with-id " + id
-    print(cmd)
     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, encoding='utf-8')
     if process.stdout:
         log = process.communicate()[1]
         # log = log.decode("utf-8")
-        print('loging', log)
         endlist = log.partition('\n')[-1]
-        print('endlist', endlist)
 #
 # file = os.path.join('test_python_scripts.py')
 # print(file)
