@@ -1,0 +1,3 @@
+Test results for diskusage.sh
+1. PASS: No action taken for disk usage under 90%
+2. FAIL: Disk usage was 90% but no notification was sent

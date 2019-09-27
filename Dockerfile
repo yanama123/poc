@@ -1,7 +1,11 @@
-FROM python
+FROM python:3
+WORKDIR /code
+COPY requirements.txt requirements.txt
+RUN ls
+RUN pip install -r requirements.txt
+COPY . .
+CMD python worker.py
 
-ADD receiver.py /
-
-RUN pip install pika==0.12.0
-
-CMD [ "python", "./receiver.py" ]
+# COPY ./docker-entrypoint.sh /docker-entrypoint.sh
+# RUN chmod +x /docker-entrypoint.sh
+# ENTRYPOINT ["/docker-entrypoint.sh"]

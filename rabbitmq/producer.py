@@ -16,5 +16,4 @@ def publish_test(testcase):
     channel.queue_declare(queue=QUEUE_NAME)
 
     channel.basic_publish(exchange='', routing_key=ROUTING_KEY, body=testcase)
-    # print(" [x] Sent 'Hello World!'")
     connection.close()

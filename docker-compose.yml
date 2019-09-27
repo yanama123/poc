@@ -3,7 +3,7 @@ version: "3"
 services:
   mysql:
     container_name: mysql
-    image: mysql:8.0
+    image: mysql
     restart: always
     volumes:
       - ./mysql/data:/var/lib/mysql
@@ -23,3 +23,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+  worker:
+    image: workerabc
+    volumes:
+    - .:/code

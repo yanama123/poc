@@ -1,6 +1,6 @@
 import functools
 import subprocess
-from test_files.testcase import SimpleTest
+from test_files.test_python_scripts import SimpleTest
 from collections import OrderedDict
 
 
