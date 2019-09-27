@@ -20,6 +20,3 @@ class TestRabbitmq(unittest.TestCase):
         result = producer.publish_test({"test_python_scripts.py"})
         self.assertEqual(result, None)
 
-
-if __name__ == "__main__":
-    unittest.TestCase()

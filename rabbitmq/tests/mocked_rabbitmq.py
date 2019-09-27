@@ -20,3 +20,7 @@ class rabbitmqmockmethods:
 
     def close(self):
         return 1
+
+class method:
+    delivery_tag = 2
+    pass

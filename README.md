@@ -1,38 +1,55 @@
-### Software Requirments
+# Test Runner
+Runner Process to run python/bash test scripts
 
-    Python 3.6.7
+# Software Requirements
+Ubuntu 18.04
 
-### Clone Repo
+Python 3.5
 
-    $ git clone https://github.com/yanama123/poc.git
+Docker 18.09.7, build 2d0083d
 
-### Python Virtual Environment
+docker-compose 1.24.1, build 4667896b
 
-1. Create Python virtual environment
+Rabbitmq 3
 
-        $ virtualenv test_venv -p python3
+Mysql:8
 
-2. Activate virtual environment
+# Python Virtual Environment
+Create Python virtual environment
 
-        $ source test_venv/bin/activate
+    $ virtualenv test_venv -p python3
+Activate virtual environment
 
-3. Deactivate virtual environment
+    $ source test_venv/bin/activate
+Deactivate virtual environment
 
-        $ deactivate
+    $ deactivate
+# Project Setup
 
-### RabbitMQ installation
+> Untar project tar at /home directory
 
-    echo "deb http://www.rabbitmq.com/debian/ testing main"  | sudo tee  /etc/apt/sources.list.d/rabbitmq.list > /dev/null
-    wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-    sudo apt-key add rabbitmq-signing-key-public.asc
-    sudo apt-get update
-    sudo apt-get install rabbitmq-server -y
-    sudo service rabbitmq-server start
-    sudo rabbitmq-plugins enable rabbitmq_management
-    sudo service rabbitmq-server restart
+    sudo tar -xzvf test_runer-1.0.tar.gz
+
+> Run build_image.sh
+  
+    sudo ./build_image.sh
+   
+> Run docker-compose file to run services
+
+    sudo docker-compose up -d 
     
-### Run project
-    terminal 1:
-    python main_runner -tc=testcase.py
-    terminal 2: 
-    python consumer.py
+> Run manage.py  to run the test files
+
+    python manage.py -h
+    
+    python manage.py -tc=test_files/test_python_scripts.py 
+    
+    python manage.py -tc=test_files/test_shell_scripts.bats
+    
+> To check test results
+>
+    python manage.py -a all   
+ 
+    python manage.py -s test_files/test_python_scripts.py
+    
+    python manage.py -s test_files/test_shell_scripts.bats

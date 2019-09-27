@@ -3,7 +3,7 @@ from common import config
 from mock import patch
 
 
-class TestFunction(unittest.TestCase):
+class TestConfig(unittest.TestCase):
 
     @patch('common.config.file_open')
     def test_get_config(self, file_open_mock):
