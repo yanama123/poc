@@ -37,7 +37,6 @@ class TestDatabase:
                 self.mydb.database = self.DB_NAME
             else:
                 print(err)
-        print('-------------------------')
         # print(self.TABLES)
         for table_name in self.TABLES:
             table_description = self.TABLES[table_name]
@@ -45,12 +44,12 @@ class TestDatabase:
                 print("Creating table {}: ".format(table_name), end='')
                 self.cursor.execute(table_description)
             except mysql.connector.Error as err:
-                print('came here', err.errno, errorcode.ER_TABLE_EXISTS_ERROR)
+                # print('came here', err.errno, errorcode.ER_TABLE_EXISTS_ERROR)
                 if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
                     print("already exists.")
                     self.cursor.execute("USE test_db")
                 else:
-                    print(err.msg)
+                    (err.msg)
             else:
                 print("OK")
 
@@ -130,9 +129,9 @@ class TestDatabase:
         :return:
         """
         print('table name', self.TABLE_NAME)
-        self.cursor.execute("SELECT id, status, logs FROM {}".format(self.TABLE_NAME))
+        self.cursor.execute("SELECT * FROM {}".format(self.TABLE_NAME))
 
-        result = self.cursor.fetchone()
+        result = self.cursor.fetchall()
         return result
 
     def status_from_id(self, id):
